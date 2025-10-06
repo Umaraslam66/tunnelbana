@@ -1,0 +1,75 @@
+# Large GTFS data files (too big for GitHub)
+real_gtfs.zip
+shapes.txt
+stop_times.txt
+trips.txt
+stops.txt
+routes.txt
+calendar.txt
+calendar_dates.txt
+agency.txt
+feed_info.txt
+attributions.txt
+areas.txt
+booking_rules.txt
+stop_areas.txt
+transfers.txt
+
+# Generated large JSON files
+morning_schedules.json
+morning_schedules_summary.json
+morning_schedules_with_tracks.json
+morning_schedules_deduplicated.json
+morning_schedules_realistic.json
+morning_schedules_single_day.json
+morning_schedules_with_tracks_dedup.json
+metro_complete.json
+metro_tracks.json
+multi_line_stations_complete.json
+stockholm-metro-app/public/morning_schedules_with_tracks.json
+stockholm-metro-app/public/metro_tracks.json
+
+# Support scripts and helper files
+scripts/
+*.py
+__pycache__/
+*.pyc
+
+# Documentation (except main README)
+*.md
+!stockholm-metro-app/README.md
+!README.md
+
+# Analysis and data files
+*.csv
+*.sqlite3
+*.db
+
+# Test recordings
+*.webm
+*.gif
+
+# Node modules
+node_modules/
+stockholm-metro-app/node_modules/
+
+# Build output
+stockholm-metro-app/build/
+dist/
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+

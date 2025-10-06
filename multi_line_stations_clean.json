@@ -1,0 +1,39 @@
+{
+  "9022050009825005": {
+    "name": "T-Centralen",
+    "lat": 59.332438,
+    "lon": 18.061991,
+    "lines": [
+      "blue",
+      "green",
+      "red"
+    ]
+  },
+  "9022050009829003": {
+    "name": "Fridhemsplan",
+    "lat": 59.333015,
+    "lon": 18.030807,
+    "lines": [
+      "blue",
+      "green"
+    ]
+  },
+  "9022050009823003": {
+    "name": "Slussen",
+    "lat": 59.319533,
+    "lon": 18.071958,
+    "lines": [
+      "green",
+      "red"
+    ]
+  },
+  "9022050009824003": {
+    "name": "Gamla stan",
+    "lat": 59.323147,
+    "lon": 18.066957,
+    "lines": [
+      "green",
+      "red"
+    ]
+  }
+}
