@@ -15,7 +15,7 @@ booking_rules.txt
 stop_areas.txt
 transfers.txt
 
-# Generated large JSON files
+# Generated large JSON files (but allow those in stockholm-metro-app/public)
 morning_schedules.json
 morning_schedules_summary.json
 morning_schedules_with_tracks.json
@@ -26,8 +26,9 @@ morning_schedules_with_tracks_dedup.json
 metro_complete.json
 metro_tracks.json
 multi_line_stations_complete.json
-stockholm-metro-app/public/morning_schedules_with_tracks.json
-stockholm-metro-app/public/metro_tracks.json
+!stockholm-metro-app/public/morning_schedules_with_tracks.json
+!stockholm-metro-app/public/metro_tracks.json
+!stockholm-metro-app/public/morning_schedules.json
 
 # Support scripts and helper files
 scripts/
