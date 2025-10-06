@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd stockholm-metro-app && npm install && npm run build",
+  "outputDirectory": "stockholm-metro-app/build",
+  "framework": "create-react-app",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
