@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import { AnimationData, AnimationState, TrainPosition } from '../types/animation';
 import { MetroData, MultiLineStations, Station, TrackData } from '../types/metro';
@@ -222,18 +222,28 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({
     return lines;
   }, [trackData, metroData, visibleLines, getLineColor]);
 
-  // Render static stations
+  // Render static stations with end station labels
   const stationMarkers = useMemo(() => {
-    const stationMap = new Map<string, { lat: number, lon: number, name: string, lines: Set<string>, isMultiLine: boolean }>();
+    const stationMap = new Map<string, { id: string, lat: number, lon: number, name: string, lines: Set<string>, isMultiLine: boolean }>();
+    const endStationIds = new Set<string>();
 
-    // Collect all stations from metro data
+    // Collect all stations from metro data and identify end stations
     Object.entries(metroData).forEach(([lineColor, branches]) => {
       if (!visibleLines.has(lineColor)) return;
 
       Object.values(branches).forEach((stationList) => {
-        (stationList as Station[]).forEach(station => {
+        const stations = stationList as Station[];
+        
+        // Mark first and last stations as end stations
+        if (stations.length > 0) {
+          endStationIds.add(stations[0].stop_id);
+          endStationIds.add(stations[stations.length - 1].stop_id);
+        }
+        
+        stations.forEach(station => {
           if (!stationMap.has(station.stop_id)) {
             stationMap.set(station.stop_id, {
+              id: station.stop_id,
               lat: station.stop_lat,
               lon: station.stop_lon,
               name: station.stop_name,
@@ -255,28 +265,44 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({
       }
     });
 
-    return Array.from(stationMap.values()).map((station, idx) => (
-      <CircleMarker
-        key={`station-${idx}`}
-        center={[station.lat, station.lon]}
-        radius={station.isMultiLine ? 4 : 2.5}
-        pathOptions={{
-          fillColor: station.isMultiLine ? '#ffd700' : '#ffffff',
-          color: station.isMultiLine ? '#fff' : '#333',
-          weight: 1,
-          opacity: 0.8,
-          fillOpacity: 0.7
-        }}
-      >
-        <Popup>
-          <div>
-            <strong>{station.name}</strong><br/>
-            Lines: {Array.from(station.lines).join(', ')}<br/>
-            {station.isMultiLine && <span style={{color: '#ffd700'}}>⭐ Transfer Station</span>}
-          </div>
-        </Popup>
-      </CircleMarker>
-    ));
+    return Array.from(stationMap.values()).map((station, idx) => {
+      const isEndStation = endStationIds.has(station.id);
+      
+      return (
+        <CircleMarker
+          key={`station-${idx}`}
+          center={[station.lat, station.lon]}
+          radius={station.isMultiLine ? 4 : 2.5}
+          pathOptions={{
+            fillColor: station.isMultiLine ? '#ffd700' : '#ffffff',
+            color: station.isMultiLine ? '#fff' : '#333',
+            weight: 1,
+            opacity: 0.8,
+            fillOpacity: 0.7
+          }}
+        >
+          <Popup>
+            <div>
+              <strong>{station.name}</strong><br/>
+              Lines: {Array.from(station.lines).join(', ')}<br/>
+              {station.isMultiLine && <span style={{color: '#ffd700'}}>⭐ Transfer Station</span>}
+            </div>
+          </Popup>
+          
+          {/* Show tooltip only for end stations */}
+          {isEndStation && (
+            <Tooltip 
+              permanent 
+              direction="top" 
+              className="station-label"
+              offset={[0, -10]}
+            >
+              {station.name}
+            </Tooltip>
+          )}
+        </CircleMarker>
+      );
+    });
   }, [metroData, multiLineStations, visibleLines]);
 
   // Animation loop using requestAnimationFrame

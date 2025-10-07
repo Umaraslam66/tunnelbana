@@ -13,7 +13,6 @@ const App: React.FC = () => {
   const [trackData, setTrackData] = useState<TrackData | null>(null);
   const [visibleLines, setVisibleLines] = useState<Set<string>>(new Set(['blue', 'red', 'green']));
   const [showBackgroundMap, setShowBackgroundMap] = useState(true);
-  const [showTracks, setShowTracks] = useState(true);
   const [showControls, setShowControls] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,10 +91,6 @@ const App: React.FC = () => {
 
   const handleBackgroundMapToggle = () => {
     setShowBackgroundMap(prev => !prev);
-  };
-
-  const handleShowTracksToggle = () => {
-    setShowTracks(prev => !prev);
   };
 
   // Animation controls
@@ -276,8 +271,6 @@ const App: React.FC = () => {
             showBackgroundMap={showBackgroundMap}
             onLineToggle={handleLineToggle}
             onBackgroundMapToggle={handleBackgroundMapToggle}
-            showTracks={showTracks}
-            onShowTracksToggle={handleShowTracksToggle}
           />
           
           {/* Animation mode toggle */}
@@ -323,7 +316,7 @@ const App: React.FC = () => {
               showBackgroundMap={showBackgroundMap}
               metroData={metroData}
               multiLineStations={multiLineStations}
-              trackData={showTracks ? trackData : null}
+              trackData={trackData}
             />
           </>
         ) : (

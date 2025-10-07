@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { MapContainer, TileLayer, Polyline, CircleMarker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import { MetroData, MultiLineStations, Station } from '../types/metro';
 import 'leaflet/dist/leaflet.css';
@@ -45,16 +45,25 @@ const MetroMap: React.FC<MetroMapProps> = ({
   }, []);
 
   // Memoized station processing
-  const { allStations, allConnections } = useMemo(() => {
+  const { allStations, allConnections, endStations } = useMemo(() => {
     const stations = new Map<string, ProcessedStation>();
     const connections: any[] = [];
+    const endStationIds = new Set<string>();
 
     // Process each line
     Object.entries(metroData).forEach(([lineColor, directions]) => {
       if (!visibleLines.has(lineColor)) return;
 
       Object.entries(directions).forEach(([directionName, stationList]) => {
-        (stationList as Station[]).forEach((station: Station, index: number) => {
+        const routeStations = stationList as Station[];
+        
+        // Mark first and last stations as end stations
+        if (routeStations.length > 0) {
+          endStationIds.add(routeStations[0].stop_id);
+          endStationIds.add(routeStations[routeStations.length - 1].stop_id);
+        }
+
+        routeStations.forEach((station: Station, index: number) => {
           if (!stations.has(station.stop_id)) {
             stations.set(station.stop_id, {
               stop_id: station.stop_id,
@@ -72,10 +81,10 @@ const MetroMap: React.FC<MetroMapProps> = ({
           }
 
           // Create connections
-          if (index < (stationList as Station[]).length - 1) {
+          if (index < routeStations.length - 1) {
             connections.push({
               source: station.stop_id,
-              target: (stationList as Station[])[index + 1].stop_id,
+              target: routeStations[index + 1].stop_id,
               line: lineColor,
               direction: directionName
             });
@@ -95,7 +104,7 @@ const MetroMap: React.FC<MetroMapProps> = ({
       }
     });
 
-    return { allStations: stations, allConnections: connections };
+    return { allStations: stations, allConnections: connections, endStations: endStationIds };
   }, [metroData, multiLineStations, visibleLines]);
 
   const getStationColor = useCallback((station: ProcessedStation) => {
@@ -148,6 +157,8 @@ const MetroMap: React.FC<MetroMapProps> = ({
       {Array.from(allStations.values()).map((station) => {
         const isVisible = Array.from(station.lines).some((line: string) => visibleLines.has(line));
         if (!isVisible) return null;
+        
+        const isEndStation = endStations.has(station.stop_id);
 
         return (
           <React.Fragment key={station.stop_id}>
@@ -169,6 +180,18 @@ const MetroMap: React.FC<MetroMapProps> = ({
                   {station.isMultiLine ? 'Transfer Station' : 'Regular Station'}
                 </div>
               </Popup>
+              
+              {/* Show tooltip only for end stations */}
+              {isEndStation && (
+                <Tooltip 
+                  permanent 
+                  direction="top" 
+                  className="station-label"
+                  offset={[0, -10]}
+                >
+                  {station.stop_name}
+                </Tooltip>
+              )}
             </CircleMarker>
 
           </React.Fragment>

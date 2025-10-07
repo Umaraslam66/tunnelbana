@@ -5,17 +5,13 @@ interface ControlsProps {
   showBackgroundMap: boolean;
   onLineToggle: (line: string) => void;
   onBackgroundMapToggle: () => void;
-  showTracks?: boolean;
-  onShowTracksToggle?: () => void;
 }
 
 const Controls: React.FC<ControlsProps> = ({
   visibleLines,
   showBackgroundMap,
   onLineToggle,
-  onBackgroundMapToggle,
-  showTracks = true,
-  onShowTracksToggle
+  onBackgroundMapToggle
 }) => {
   const lines = [
     { id: 'blue', name: 'Blue Line', color: '#2196f3', icon: '🔵' },
@@ -61,30 +57,6 @@ const Controls: React.FC<ControlsProps> = ({
             <span className="btn-text">Background Map</span>
             {showBackgroundMap && <span className="btn-check">✓</span>}
           </button>
-          
-          {onShowTracksToggle && (
-            <button
-              className={`toggle-btn feature-btn ${showTracks ? 'active' : ''}`}
-              onClick={onShowTracksToggle}
-            >
-              <span className="btn-icon">🛤️</span>
-              <span className="btn-text">Track Separation</span>
-              {showTracks && <span className="btn-check">✓</span>}
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div className="control-footer">
-        <div className="stats-grid">
-          <div className="stat-item">
-            <span className="stat-value">{visibleLines.size}</span>
-            <span className="stat-label">Active Lines</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">100</span>
-            <span className="stat-label">Stations</span>
-          </div>
         </div>
       </div>
     </div>
