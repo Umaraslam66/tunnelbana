@@ -302,28 +302,40 @@
 
 /* Animation Controls Overlay */
 .animation-controls-overlay {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
   max-width: 90%;
   width: auto;
+  pointer-events: none;
+}
+
+.animation-controls-overlay > * {
+  pointer-events: auto;
 }
 
 /* Compact Animation Controls */
 .animation-controls-compact {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 8px;
   padding: 12px 24px;
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 50px;
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   transition: box-shadow 0.2s ease;
   position: relative;
+  will-change: transform;
+}
+
+.animation-controls-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .animation-controls-compact.dragging {
@@ -1049,6 +1061,35 @@
 
 .station-label::before {
   border-top-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+/* Animation Stats Info */
+.animation-stats-info {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  background: rgba(10, 14, 26, 0.6);
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.stat-info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-info-icon {
+  font-size: 14px;
+}
+
+.stat-info-value {
+  font-weight: 600;
+  color: #64c8ff;
 }
 
 /* Loading State */

@@ -28,6 +28,7 @@ const App: React.FC = () => {
     progress: 0
   });
   const [showAnimation, setShowAnimation] = useState(false);
+  const [currentTrainCount, setCurrentTrainCount] = useState(0);
   const timeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -123,6 +124,30 @@ const App: React.FC = () => {
     setShowControls(prev => !prev);
   }, []);
 
+  // Calculate current train count
+  const calculateTrainCount = useCallback((currentTime: string) => {
+    if (!animationData) return 0;
+    
+    const [hours, mins, secs] = currentTime.split(':').map(Number);
+    const currentSeconds = hours * 3600 + mins * 60 + secs;
+    
+    let count = 0;
+    animationData.trips.forEach(trip => {
+      if (!visibleLines.has(trip.line_color)) return;
+      
+      if (trip.positions && trip.positions.length > 0) {
+        const startTime = trip.positions[0].time;
+        const endTime = trip.positions[trip.positions.length - 1].time;
+        
+        if (currentSeconds >= startTime && currentSeconds <= endTime) {
+          count++;
+        }
+      }
+    });
+    
+    return count;
+  }, [animationData, visibleLines]);
+
   const handleTimeSeek = useCallback((time: string) => {
     console.log(`⏱️ Seeking to time ${time}`);
     setAnimationState(prev => {
@@ -172,6 +197,9 @@ const App: React.FC = () => {
           const elapsedSeconds = newSeconds - startSeconds;
           const progress = Math.min(Math.max(elapsedSeconds / totalSeconds, 0), 1);
           
+          // Update train count
+          setCurrentTrainCount(calculateTrainCount(newTime));
+          
           // Stop at end time
           if (newSeconds >= endSeconds) {
             return {
@@ -202,7 +230,7 @@ const App: React.FC = () => {
         timeIntervalRef.current = null;
       }
     };
-  }, [animationState.isPlaying, animationState.speed]);
+  }, [animationState.isPlaying, animationState.speed, calculateTrainCount]);
 
   const animationControls: AnimationControlsType = {
     onPlay: handlePlay,
@@ -301,6 +329,7 @@ const App: React.FC = () => {
             state={animationState}
             controls={animationControls}
             onTimeSeek={handleTimeSeek}
+            trainCount={currentTrainCount}
           />
         </div>
       )}

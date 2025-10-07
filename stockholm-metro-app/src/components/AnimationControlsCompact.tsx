@@ -5,12 +5,14 @@ interface AnimationControlsProps {
   state: AnimationState;
   controls: AnimationControls;
   onTimeSeek?: (time: string) => void;
+  trainCount?: number;
 }
 
 const AnimationControlsCompact: React.FC<AnimationControlsProps> = ({ 
   state, 
   controls,
-  onTimeSeek 
+  onTimeSeek,
+  trainCount = 0
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -115,14 +117,18 @@ const AnimationControlsCompact: React.FC<AnimationControlsProps> = ({
       style={{
         transform: position.x !== 0 || position.y !== 0 ? `translate(${position.x}px, ${position.y}px)` : undefined,
       }}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
     >
-      {/* Drag Handle */}
-      <div className="drag-handle" title="Drag to move">⋮⋮</div>
-      
-      {/* Playback Controls */}
-      <div className="compact-controls-group">
+      {/* Main Controls */}
+      <div 
+        className="animation-controls-main"
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+      >
+        {/* Drag Handle */}
+        <div className="drag-handle" title="Drag to move">⋮⋮</div>
+        
+        {/* Playback Controls */}
+        <div className="compact-controls-group">
         <button
           className={`compact-btn ${state.isPlaying ? 'active' : ''}`}
           onClick={state.isPlaying ? controls.onPause : controls.onPlay}
@@ -161,20 +167,40 @@ const AnimationControlsCompact: React.FC<AnimationControlsProps> = ({
         </div>
       )}
 
-      {/* Speed Control */}
-      <div className="compact-speed-group">
-        <span className="compact-label">Speed:</span>
-        <input
-          type="range"
-          min="1"
-          max="60"
-          step="1"
-          value={state.speed}
-          onChange={(e) => controls.onSpeedChange(parseInt(e.target.value))}
-          className="compact-speed-slider"
-          title={`${state.speed}x speed`}
-        />
-        <span className="compact-speed-value">{state.speed}x</span>
+        {/* Speed Control */}
+        <div className="compact-speed-group">
+          <span className="compact-label">Speed:</span>
+          <input
+            type="range"
+            min="1"
+            max="60"
+            step="1"
+            value={state.speed}
+            onChange={(e) => controls.onSpeedChange(parseInt(e.target.value))}
+            className="compact-speed-slider"
+            title={`${state.speed}x speed`}
+          />
+          <span className="compact-speed-value">{state.speed}x</span>
+        </div>
+      </div>
+
+      {/* Stats Info */}
+      <div className="animation-stats-info">
+        <div className="stat-info-item">
+          <span className="stat-info-icon">🚇</span>
+          <span className="stat-info-value">{trainCount}</span>
+          <span>trains</span>
+        </div>
+        <div className="stat-info-item">
+          <span className="stat-info-icon">⚡</span>
+          <span className="stat-info-value">{state.speed}x</span>
+          <span>speed</span>
+        </div>
+        <div className="stat-info-item">
+          <span className="stat-info-icon">📊</span>
+          <span className="stat-info-value">{Math.round(state.progress * 100)}%</span>
+          <span>progress</span>
+        </div>
       </div>
     </div>
   );
