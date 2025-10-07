@@ -383,22 +383,6 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({
           </Marker>
         ))}
       </MapContainer>
-
-      {/* Info overlay */}
-      <div className="animation-info-overlay">
-        <div className="info-stat">
-          <span className="info-label">🚇 Trains</span>
-          <span className="info-value">{trainPositions.length}</span>
-        </div>
-        <div className="info-stat">
-          <span className="info-label">⏱️ Time</span>
-          <span className="info-value">{animationState.currentTime.substring(0, 5)}</span>
-        </div>
-        <div className="info-stat">
-          <span className="info-label">⚡ Speed</span>
-          <span className="info-value">{animationState.speed}x</span>
-        </div>
-      </div>
     </div>
   );
 };
