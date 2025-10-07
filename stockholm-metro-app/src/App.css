@@ -322,6 +322,36 @@
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 0.2s ease;
+  position: relative;
+}
+
+.animation-controls-compact.dragging {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+  cursor: grabbing !important;
+  border-color: rgba(100, 200, 255, 0.4);
+}
+
+/* Drag Handle */
+.drag-handle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: grab;
+  user-select: none;
+  padding: 4px 8px;
+  margin-left: -12px;
+  margin-right: -4px;
+  transition: color 0.2s ease;
+  letter-spacing: -2px;
+}
+
+.drag-handle:hover {
+  color: rgba(100, 200, 255, 0.8);
+}
+
+.animation-controls-compact.dragging .drag-handle {
+  cursor: grabbing;
+  color: rgba(100, 200, 255, 1);
 }
 
 .compact-controls-group {
@@ -362,6 +392,12 @@
   flex-direction: column;
   align-items: center;
   min-width: 80px;
+  cursor: grab;
+  user-select: none;
+}
+
+.animation-controls-compact.dragging .compact-time-display {
+  cursor: grabbing;
 }
 
 .compact-time {
@@ -1185,7 +1221,6 @@
     right: 12px;
     max-width: none;
     width: auto;
-    transform: none;
   }
   
   .animation-controls-compact {
@@ -1193,6 +1228,14 @@
     gap: 12px;
     padding: 14px 18px;
     align-items: stretch;
+  }
+
+  /* Drag handle on mobile */
+  .drag-handle {
+    text-align: center;
+    margin: -8px 0 4px 0;
+    padding: 8px;
+    font-size: 16px;
   }
 
   /* Playback buttons - Centered row */

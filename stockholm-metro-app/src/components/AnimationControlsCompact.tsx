@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { AnimationState, AnimationControls } from '../types/animation';
 
 interface AnimationControlsProps {
@@ -12,6 +12,11 @@ const AnimationControlsCompact: React.FC<AnimationControlsProps> = ({
   controls,
   onTimeSeek 
 }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const formatTime = (time: string) => {
     return time.substring(0, 5); // Show HH:MM
   };
@@ -33,8 +38,89 @@ const AnimationControlsCompact: React.FC<AnimationControlsProps> = ({
     onTimeSeek(newTime);
   }, [onTimeSeek]);
 
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only start drag if clicking on the drag handle or time display
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('drag-handle') || target.classList.contains('compact-time-display') || target.classList.contains('compact-time') || target.classList.contains('compact-time-range')) {
+      setIsDragging(true);
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        setDragOffset({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+      }
+    }
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    // Only start drag if touching the drag handle or time display
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('drag-handle') || target.classList.contains('compact-time-display') || target.classList.contains('compact-time') || target.classList.contains('compact-time-range')) {
+      setIsDragging(true);
+      const touch = e.touches[0];
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        setDragOffset({
+          x: touch.clientX - rect.left,
+          y: touch.clientY - rect.top
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - dragOffset.x,
+          y: e.clientY - dragOffset.y
+        });
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        setPosition({
+          x: touch.clientX - dragOffset.x,
+          y: touch.clientY - dragOffset.y
+        });
+      }
+    };
+
+    const handleEnd = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleEnd);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleEnd);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleEnd);
+    };
+  }, [isDragging, dragOffset]);
+
   return (
-    <div className="animation-controls-compact">
+    <div 
+      ref={containerRef}
+      className={`animation-controls-compact ${isDragging ? 'dragging' : ''}`}
+      style={{
+        transform: position.x !== 0 || position.y !== 0 ? `translate(${position.x}px, ${position.y}px)` : undefined,
+      }}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
+    >
+      {/* Drag Handle */}
+      <div className="drag-handle" title="Drag to move">⋮⋮</div>
+      
       {/* Playback Controls */}
       <div className="compact-controls-group">
         <button
