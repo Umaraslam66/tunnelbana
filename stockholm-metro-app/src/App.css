@@ -303,67 +303,49 @@
 /* Animation Controls Overlay */
 .animation-controls-overlay {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px;
+  right: 20px;
   z-index: 1000;
-  max-width: 90%;
-  width: auto;
-  pointer-events: none;
+  width: 220px;
 }
 
-.animation-controls-overlay > * {
-  pointer-events: auto;
+/* Animation Controls Card */
+.animation-controls-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-/* Compact Animation Controls */
-.animation-controls-compact {
+.animation-card-header {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.animation-card-header h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.animation-card-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 12px 24px;
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  transition: box-shadow 0.2s ease;
-  position: relative;
-  will-change: transform;
 }
 
-.animation-controls-main {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.animation-controls-compact.dragging {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
-  cursor: grabbing !important;
-  border-color: rgba(100, 200, 255, 0.4);
-}
-
-/* Drag Handle */
-.drag-handle {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
-  cursor: grab;
-  user-select: none;
-  padding: 4px 8px;
-  margin-left: -12px;
-  margin-right: -4px;
-  transition: color 0.2s ease;
-  letter-spacing: -2px;
-}
-
-.drag-handle:hover {
-  color: rgba(100, 200, 255, 0.8);
-}
-
-.animation-controls-compact.dragging .drag-handle {
-  cursor: grabbing;
-  color: rgba(100, 200, 255, 1);
+.card-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .compact-controls-group {
@@ -399,132 +381,114 @@
   box-shadow: 0 0 16px rgba(100, 200, 255, 0.4);
 }
 
-.compact-time-display {
+/* Time Display */
+.time-display-large {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 80px;
-  cursor: grab;
-  user-select: none;
+  padding: 12px;
+  background: rgba(100, 200, 255, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(100, 200, 255, 0.2);
 }
 
-.animation-controls-compact.dragging .compact-time-display {
-  cursor: grabbing;
+.time-large {
+  font-size: 28px;
+  font-weight: 700;
+  color: #64c8ff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
-.compact-time {
-  font-size: 18px;
+.time-range-small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+}
+
+/* Progress Slider */
+.progress-slider-vertical {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.progress-slider-vertical::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #64c8ff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
+}
+
+.progress-slider-vertical::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #64c8ff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
+}
+
+/* Speed Control */
+.speed-display {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  background: rgba(100, 200, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(100, 200, 255, 0.2);
+}
+
+.speed-value-large {
+  font-size: 24px;
   font-weight: 700;
   color: #64c8ff;
   font-variant-numeric: tabular-nums;
 }
 
-.compact-time-range {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.4);
-  font-variant-numeric: tabular-nums;
-}
-
-.compact-progress-container {
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-}
-
-.compact-progress-slider {
+.speed-slider-vertical {
   width: 100%;
-  height: 6px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
-}
-
-.compact-progress-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  background: #64c8ff;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(100, 200, 255, 0.6);
-}
-
-.compact-progress-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  background: #64c8ff;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 0 8px rgba(100, 200, 255, 0.6);
-}
-
-.compact-speed-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-left: 16px;
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.compact-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 600;
-}
-
-.compact-speed-slider {
-  width: 100px;
-  height: 6px;
+  height: 8px;
   -webkit-appearance: none;
   appearance: none;
   background: linear-gradient(to right, 
     rgba(100, 200, 255, 0.2) 0%, 
     rgba(100, 200, 255, 0.5) 100%);
-  border-radius: 3px;
+  border-radius: 4px;
   outline: none;
   cursor: pointer;
 }
 
-.compact-speed-slider::-webkit-slider-thumb {
+.speed-slider-vertical::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: linear-gradient(135deg, #64c8ff 0%, #4f9fff 100%);
   border-radius: 50%;
-  cursor: grab;
-  box-shadow: 0 0 8px rgba(100, 200, 255, 0.6);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
 }
 
-.compact-speed-slider::-webkit-slider-thumb:active {
-  cursor: grabbing;
-}
-
-.compact-speed-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+.speed-slider-vertical::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
   background: linear-gradient(135deg, #64c8ff 0%, #4f9fff 100%);
   border-radius: 50%;
-  cursor: grab;
+  cursor: pointer;
   border: none;
-  box-shadow: 0 0 8px rgba(100, 200, 255, 0.6);
-}
-
-.compact-speed-slider::-moz-range-thumb:active {
-  cursor: grabbing;
-}
-
-.compact-speed-value {
-  font-size: 13px;
-  font-weight: 600;
-  color: #64c8ff;
-  min-width: 35px;
-  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
 }
 
 .compact-record-btn {
@@ -1063,33 +1027,42 @@
   border-top-color: rgba(15, 23, 42, 0.95) !important;
 }
 
-/* Animation Stats Info */
-.animation-stats-info {
+/* Stats Section */
+.stats-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-card-item {
   display: flex;
-  gap: 16px;
-  padding: 8px 16px;
-  background: rgba(10, 14, 26, 0.6);
-  border-radius: 12px;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-top: 4px;
+  gap: 4px;
+  padding: 12px 8px;
+  background: rgba(10, 14, 26, 0.4);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.stat-info-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+.stat-icon-large {
+  font-size: 20px;
 }
 
-.stat-info-icon {
-  font-size: 14px;
-}
-
-.stat-info-value {
-  font-weight: 600;
+.stat-value-large {
+  font-size: 20px;
+  font-weight: 700;
   color: #64c8ff;
+  line-height: 1;
+}
+
+.stat-label-small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Loading State */
@@ -1255,28 +1228,22 @@
     font-size: 10px;
   }
 
-  /* Animation Controls - Full width, stacked layout */
+  /* Animation Controls - Move to bottom on mobile */
   .animation-controls-overlay {
+    top: auto;
     bottom: 12px;
     left: 12px;
     right: 12px;
-    max-width: none;
     width: auto;
   }
   
-  .animation-controls-compact {
-    flex-direction: column;
+  .animation-controls-card {
+    padding: 16px;
     gap: 12px;
-    padding: 14px 18px;
-    align-items: stretch;
   }
 
-  /* Drag handle on mobile */
-  .drag-handle {
-    text-align: center;
-    margin: -8px 0 4px 0;
-    padding: 8px;
-    font-size: 16px;
+  .animation-card-header h3 {
+    font-size: 14px;
   }
 
   /* Playback buttons - Centered row */
