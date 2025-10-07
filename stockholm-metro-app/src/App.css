@@ -1101,48 +1101,356 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Toggle Button - More mobile-friendly */
+  .toggle-controls-btn {
+    top: 12px;
+    left: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    touch-action: manipulation;
+  }
+
+  /* Controls Overlay - Full width on mobile */
   .controls-overlay {
-    top: 10px;
-    left: 10px;
-    right: 10px;
+    top: 68px;
+    left: 12px;
+    right: 12px;
     max-width: none;
   }
-  
+
+  .controls {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .control-title {
+    font-size: 18px;
+  }
+
+  .control-subtitle {
+    font-size: 12px;
+  }
+
+  /* Line toggle buttons - Larger touch targets */
+  .toggle-btn {
+    padding: 14px 16px;
+    font-size: 15px;
+    touch-action: manipulation;
+  }
+
+  .btn-icon {
+    font-size: 20px;
+  }
+
+  /* Stats grid - Stack on very small screens */
+  .stats-grid {
+    gap: 8px;
+  }
+
+  .stat-item {
+    padding: 10px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  /* Animation Controls - Full width, stacked layout */
   .animation-controls-overlay {
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
     max-width: none;
-    width: calc(100% - 20px);
+    width: auto;
     transform: none;
   }
   
   .animation-controls-compact {
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 12px;
-    padding: 10px 16px;
+    padding: 14px 18px;
+    align-items: stretch;
+  }
+
+  /* Playback buttons - Centered row */
+  .compact-controls-group {
+    display: flex;
     justify-content: center;
+    gap: 12px;
   }
-  
+
+  .compact-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    touch-action: manipulation;
+  }
+
+  /* Time display - Centered */
+  .compact-time-display {
+    text-align: center;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .compact-time {
+    font-size: 20px;
+  }
+
+  .compact-time-range {
+    font-size: 11px;
+  }
+
+  /* Progress bar - Full width */
   .compact-progress-container {
-    min-width: 150px;
+    min-width: 100%;
     max-width: 100%;
+    order: 3;
   }
-  
+
+  .compact-progress-slider {
+    height: 8px;
+  }
+
+  .compact-progress-slider::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .compact-progress-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Speed control - Full width row */
   .compact-speed-group {
     padding-left: 0;
     border-left: none;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    justify-content: space-between;
+    width: 100%;
   }
-  
+
+  .compact-label {
+    font-size: 13px;
+  }
+
+  .compact-speed-slider {
+    flex: 1;
+    max-width: 150px;
+    height: 8px;
+  }
+
+  .compact-speed-slider::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .compact-speed-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .compact-speed-value {
+    font-size: 14px;
+    min-width: 40px;
+  }
+
+  /* Animation info overlay */
   .animation-info-overlay {
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
     transform: none;
+    padding: 10px 16px;
   }
-  
+
+  .info-label {
+    font-size: 10px;
+  }
+
+  .info-value {
+    font-size: 16px;
+  }
+
+  /* Speed controls grid */
   .speed-controls {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Control buttons */
+  .control-btn {
+    padding: 12px;
+    font-size: 18px;
+    touch-action: manipulation;
+  }
+}
+
+/* Very Small Phones (< 400px) */
+@media (max-width: 400px) {
+  /* Toggle button */
+  .toggle-controls-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  /* Controls */
+  .controls {
+    padding: 12px;
+  }
+
+  .control-title {
+    font-size: 16px;
+  }
+
+  .toggle-btn {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  /* Animation controls - Even more compact */
+  .animation-controls-compact {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .compact-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .compact-time {
+    font-size: 18px;
+  }
+
+  .compact-time-range {
+    font-size: 10px;
+  }
+
+  .compact-label {
+    font-size: 12px;
+  }
+
+  .compact-speed-value {
+    font-size: 13px;
+  }
+
+  /* Stats grid - Full width items */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Controls overlay - Smaller in landscape */
+  .controls-overlay {
+    top: 8px;
+    left: 8px;
+    right: auto;
+    max-width: 280px;
+  }
+
+  .controls {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .control-section {
+    gap: 8px;
+  }
+
+  .toggle-btn {
+    padding: 10px 12px;
+  }
+
+  /* Animation controls - Horizontal layout */
+  .animation-controls-overlay {
+    bottom: 8px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 90vw;
+  }
+
+  .animation-controls-compact {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    justify-content: center;
+  }
+
+  .compact-progress-container {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .compact-speed-group {
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+/* Tablet (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .controls-overlay {
+    max-width: 360px;
+  }
+
+  .animation-controls-overlay {
+    max-width: 600px;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets */
+  .compact-btn,
+  .control-btn,
+  .toggle-btn,
+  .toggle-controls-btn {
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Remove hover effects on touch devices */
+  .compact-btn:hover,
+  .control-btn:hover,
+  .toggle-btn:hover {
+    transform: none;
+  }
+
+  /* Enhance active/pressed state */
+  .compact-btn:active,
+  .control-btn:active,
+  .toggle-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  /* Larger slider thumbs for touch */
+  .compact-progress-slider::-webkit-slider-thumb,
+  .compact-speed-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .compact-progress-slider::-moz-range-thumb,
+  .compact-speed-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
   }
 }
 
